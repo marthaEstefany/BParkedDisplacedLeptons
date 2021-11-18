@@ -1,0 +1,17 @@
+# this is a comment
+dropmatch n?[A-Z][a-zA-Z0-9]{1,}.+
+drop *boostedTau*
+drop fixedGridRho*
+drop btagWeight_*
+# event info
+keep run
+keep luminosityBlock
+keep event
+keep PV_npvs
+# triggers
+keepmatch HLT_PFHT[0-9]+
+# genweight
+keep genWeight
+keep LHE_Vpt
+# PDF/Scale weights
+keep *PSWeight

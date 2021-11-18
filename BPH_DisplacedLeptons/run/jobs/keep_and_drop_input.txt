@@ -1,0 +1,100 @@
+# PFCands
+dropmatch n?PFCands_.+
+
+# SV
+drop SV_*
+
+# AK15 jets
+drop AK15Puppi_btag*
+drop AK15PuppiSubJet_btag*
+
+
+# AK8 jets
+dropmatch n?FatJet_.+
+dropmatch n?GenJetAK8_.+
+dropmatch n?SubJet_.+
+dropmatch n?SubGenJetAK8_.+
+
+# AK4 jets
+dropmatch Jet_(b|c)Reg(Corr|res)
+drop Jet_*EF
+keep Jet_*EmEF
+drop Jet_btag*
+
+# Electron
+drop Electron_*
+keep Electron_pt
+keep Electron_eta
+keep Electron_phi
+keep Electron_mass
+keep Electron_eCorr
+keep Electron_deltaEtaSC
+keep Electron_dxy
+keep Electron_dz
+keep Electron_cutBased
+keep Electron_mvaFall17V2*
+keep Electron_pfRelIso03_all
+keep Electron_miniPFRelIso_all
+keep Electron_pdgId
+keep Electron_charge
+keep Electron_genPartIdx
+keep Electron_r9
+keep Electron_seedGain
+
+# Muon
+drop Muon_*
+keep Muon_pt
+keep Muon_eta
+keep Muon_phi
+keep Muon_mass
+keep Muon_dxy
+keep Muon_dz
+keep Muon_dxybs
+keep Muon_looseId
+keep Muon_mediumId
+keep Muon_tightId
+keep Muon_pfRelIso04_all
+keep Muon_miniPFRelIso_all
+keep Muon_pdgId
+keep Muon_charge
+keep Muon_genPartIdx
+keep Muon_nTrackerLayers
+
+# objects
+dropmatch n?Tau_.+
+dropmatch n?Photon_.+
+dropmatch n?SoftActivity.+
+dropmatch n?FsrPhoton_.+
+dropmatch n?IsoTrack_.+
+dropmatch n?btagWeight_.+
+drop *boostedTau*
+
+# HLT
+drop HLT*
+keep HLT_Iso*Mu24
+keep HLT_IsoMu27
+keep HLT_*Mu50
+keep HLT_*Mu100
+keep HLT_Ele27_WPTight_Gsf
+keep HLT_Ele32_WPTight_Gsf
+keep HLT_Ele32_WPTight_Gsf_L1DoubleEG
+keep HLT_Ele35_WPTight_Gsf
+keep HLT_PFMET*_PFMHT*_IDTight*
+keepmatch HLT_PFHT[0-9]+
+
+# L1/TrigObj
+dropmatch n?L1_.+
+dropmatch n?TrigObj_.+
+
+# GEN
+dropmatch n?GenDressedLepton_.+
+dropmatch n?GenVisTau_.+
+dropmatch n?LHEPart_.+
+dropmatch n?Generator_.+
+dropmatch n?LHEReweightingWeight
+dropmatch n?HTXS_.+
+dropmatch n?GenIsolatedPhoton_.+
+dropmatch n?PuppiMET_.+
+dropmatch n?CaloMET_.+
+dropmatch n?ChsMET_.+
+dropmatch n?RawPuppiMET_.+
