@@ -65,6 +65,14 @@ class SVTreeProducer(Module):
         self.out.branch("muon_mass", "F")
         self.out.branch("muon_iso", "F")
 
+
+        self.out.branch("noTrig_muon_pt", "F")
+        self.out.branch("noTrig_muon_dxy", "F")
+        self.out.branch("noTrig_muon_dxyErr", "F")
+        self.out.branch("noTrig_muon_eta", "F")
+        self.out.branch("noTrig_muon_mass", "F")
+        self.out.branch("noTrig_muon_iso", "F")
+
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
 
@@ -74,24 +82,28 @@ class SVTreeProducer(Module):
         _all_svs    = Collection(event, 'SV')
         _all_muons  = Collection(event, 'Muon')
         _trig_muons = Collection(event, 'Muon')
+        _lead_muons = Collection(event, 'Muon')
 
         secondary_vertices     = []
         muons                  = []
         muons_triggering       = []
         muons_by_ip_           = []
+        muons_noTrig           = []
 
         for sv in _all_svs:
-            # do not consider SVs inside jets
-            #if closest(sv, jets)[1] < 0.4:
-            #    continue
-            #sv.gen = _NullObject()
-            #sv.hadron_flavor = 0
-            #if sv.pt < 10.:
-            #    continue
             secondary_vertices.append(sv)
 
         for muon in _all_muons:
             #apply cuts here
+            if muon.eta > 2.4:
+                continue
+            if muon.tightId == False:
+                continue
+            if muon.isGlobal == False:
+                continue
+            # add deltaR
+            # add cosA
+ 
             muons.append(muon)
             muons_by_ip_.append(muon)
             self.out.fillBranch("muon_pt", muon.pt)
@@ -106,29 +118,39 @@ class SVTreeProducer(Module):
         for muon in _trig_muons:
             if muon.isTriggering == False:
                 continue
+            if muon.eta > 2.4:
+                continue
+            if muon.tightId == False:
+                continue
+            if muon.isGlobal == False:
+                continue
             muons_triggering.append(muon)
             self.out.fillBranch("muon_pt_triggering", muon.pt)
 
-        # assign each b/c hadron uniquely to the "best-matched" SV
-        # TODO: criteria for "best-match": deltaR? else?
-        #self._selectHadrons(event)
-        #sv_unmatched = set(secondary_vertices)
-        #for gp in event.bHadrons + event.cHadrons:
-        #    sv, dr = closest(gp, sv_unmatched)
-        #    if dr < 0.4:
-        #        # TODO: check the threshold
-        #        sv.gen = gp
-        #        sv.hadron_flavor = 5 if gp in event.bHadrons else 4
-        #        sv.dr_gen = dr
-        #        sv_unmatched.remove(sv)
+        for muon in _trig_muons:
+            if muon.isTriggering == True:
+                continue
+            if muon.eta > 2.4:
+                continue
+            if muon.tightId == False:
+                continue
+            if muon.isGlobal == False:
+                continue
+            muons_noTrig.append(muon)
+            self.out.fillBranch("noTrig_muon_pt", muon.pt)
+            self.out.fillBranch("noTrig_muon_dxy", muon.dxy)
+            self.out.fillBranch("noTrig_muon_dxyErr", muon.dxyErr)
+            self.out.fillBranch("noTrig_muon_eta", muon.eta)
+            self.out.fillBranch("noTrig_muon_mass", muon.mass)
+            self.out.fillBranch("noTrig_muon_iso", muon.pfRelIso04_custom)
+
+        muons_noTrig_by_pt = sorted(muons_noTrig,key=lambda x: x.pt, reverse=True)
+        muons_noTrig_by_d0 = sorted(muons_noTrig,key=lambda x: x.dxy, reverse=True)
 
         for sv in secondary_vertices:
 
             # TODO: reco sv properties
             self.out.fillBranch("sv_pt", sv.pt)
-
-            # manually fill the tree here as we want to have one SV per row
-            #self.out.fill()
         
         self.out.fill()
         # return False here as we have already filled the tree manually
