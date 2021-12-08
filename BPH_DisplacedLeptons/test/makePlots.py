@@ -12,24 +12,52 @@ ranges = {
         "muon_eta":             (100, -3., 3.),
         "muon_mass":            (200, 0.,  200.),
         "muon_iso":             (100, 0.,  25.),
+        "Trig_muon_pt":              (100, 0., 100.),
+        "Trig_muon_dxy":             (100, -100., 100.),
+        "Trig_muon_dxyErr":          (100, -100., 100.),
+        "Trig_muon_eta":             (100, -3., 3.),
+        "Trig_muon_mass":            (200, 0.,  200.),
+        "Trig_muon_iso":             (100, 0.,  25.),
+        "noTrig_muon_pt":              (100, 0., 100.),
+        "noTrig_muon_dxy":             (100, -100., 100.),
+        "noTrig_muon_dxyErr":          (100, -100., 100.),
+        "noTrig_muon_eta":             (100, -3., 3.),
+        "noTrig_muon_mass":            (200, 0.,  200.),
+        "noTrig_muon_iso":             (100, 0.,  25.),
 }
 
 axes = {
-       "muon_pt":               ";mu_pT [GeV];N_{Events}",
-        "muon_pt_triggering":   ";triggering mu_pT [GeV]; N_{Events}",
-        "muon_dxy":             ";m_d0 [mum]; N_{Events}",
-        "muon_dxyErr":          ";mu_d0Err [mum]; N_{Events}",
-        "muon_eta":             ";mu_eta; N_{Events}",
-        "muon_mass":            ";mu_mass; N_{Events}",
-        "muon_iso":             ";mu_iso; N_{Events}",
+       "muon_pt":              ";mu_pT [GeV];N_{Events}",
+       "muon_pt_triggering":   ";triggering mu_pT [GeV]; N_{Events}",
+       "muon_dxy":             ";m_d0 [mum]; N_{Events}",
+       "muon_dxyErr":          ";mu_d0Err [mum]; N_{Events}",
+       "muon_eta":             ";mu_eta; N_{Events}",
+       "muon_mass":            ";mu_mass; N_{Events}",
+       "muon_iso":             ";mu_iso; N_{Events}",
+       "Trig_muon_pt":              ";mu_pT [GeV];N_{Events}",
+       "Trig_muon_dxy":             ";m_d0 [mum]; N_{Events}",
+       "Trig_muon_dxyErr":          ";mu_d0Err [mum]; N_{Events}",
+       "Trig_muon_eta":             ";mu_eta; N_{Events}",
+       "Trig_muon_mass":            ";mu_mass; N_{Events}",
+       "Trig_muon_iso":             ";mu_iso; N_{Events}",
+       "noTrig_muon_pt":              ";mu_pT [GeV];N_{Events}",
+       "noTrig_muon_dxy":             ";m_d0 [mum]; N_{Events}",
+       "noTrig_muon_dxyErr":          ";mu_d0Err [mum]; N_{Events}",
+       "noTrig_muon_eta":             ";mu_eta; N_{Events}",
+       "noTrig_muon_mass":            ";mu_mass; N_{Events}",
+       "noTrig_muon_iso":             ";mu_iso; N_{Events}",
 }
 
 ranges2D = {
-        "dxy_v_iso":              (100, 0., 25., 100, -100., 100.),
+        "dxy_v_iso":              (100, 0., 25., 100, -0.1, .1),
+        "dxy_v_dxy_trigVnoTrig":  (100, -0.1, .1, 100, -0.1, .1),
+        "iso_v_iso_trigVnoTrig":  (100, 0., 25., 100, 0., 25.),
 }
 
 axes2D = {
         "dxy_v_iso":              (";mu_iso ;mu_dxy", "muon_iso", "muon_dxy"),
+        "dxy_v_dxy_trigVnoTrig":  (";non triggering mu_dxy ;triggering mu_dxy", "Trig_muon_dxy", "noTrig_muon_dxy"),
+        "iso_v_iso_trigVnoTrig":  (";non triggering mu_dxy ;triggering mu_dxy", "Trig_muon_iso", "noTrig_muon_iso"),
 }
 
 
@@ -63,10 +91,6 @@ def main():
         hists[variable] = make2Dhist(inFile, variable, axes2D[variable], ranges2D[variable])
         writeHistogram(hists[variable], variable)
         
-
-    #for variable2D in variables2D:
-    #    hists[variable2D] = make2Dhist((inFile, variable2D, ";mu_iso ;mu_dxy", ranges2D[variable]), "muon_iso", "muon_dxy")
-    #    writeHistogram(hists[variable2D], variable2D)
 
 if __name__ == "__main__":
     main()
