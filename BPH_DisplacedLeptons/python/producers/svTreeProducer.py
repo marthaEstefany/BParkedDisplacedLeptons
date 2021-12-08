@@ -60,27 +60,48 @@ class SVTreeProducer(Module):
 
         # reco properties
         self.out.branch("sv_pt", "F")
-        self.out.branch("muon_pt", "F")
-        self.out.branch("muon_pt_triggering", "F")
-        self.out.branch("muon_dxy", "F")
-        self.out.branch("muon_dxyErr", "F")
-        self.out.branch("muon_eta", "F")
-        self.out.branch("muon_mass", "F")
-        self.out.branch("muon_iso", "F")
 
-        self.out.branch("Trig_muon_pt", "F")
-        self.out.branch("Trig_muon_dxy", "F")
-        self.out.branch("Trig_muon_dxyErr", "F")
-        self.out.branch("Trig_muon_eta", "F")
-        self.out.branch("Trig_muon_mass", "F")
-        self.out.branch("Trig_muon_iso", "F")
+        self.out.branch("muon_trig_by_ip_pt", "F")
+        self.out.branch("muon_trig_by_ip_eta", "F")
+        self.out.branch("muon_trig_by_ip_phi", "F")
+        self.out.branch("muon_trig_by_ip_iso", "F")
+        self.out.branch("muon_trig_by_ip_dxy", "F")
+        self.out.branch("muon_trig_by_ip_dxyErr", "F")
 
-        self.out.branch("noTrig_muon_pt", "F")
-        self.out.branch("noTrig_muon_dxy", "F")
-        self.out.branch("noTrig_muon_dxyErr", "F")
-        self.out.branch("noTrig_muon_eta", "F")
-        self.out.branch("noTrig_muon_mass", "F")
-        self.out.branch("noTrig_muon_iso", "F")
+        self.out.branch("muon_trig_by_pt_pt", "F")
+        self.out.branch("muon_trig_by_pt_eta", "F")
+        self.out.branch("muon_trig_by_pt_phi", "F")
+        self.out.branch("muon_trig_by_pt_iso", "F")
+        self.out.branch("muon_trig_by_pt_dxy", "F")
+        self.out.branch("muon_trig_by_pt_dxyErr", "F")
+
+        self.out.branch("muon_ntrig_ip_1_pt", "F")
+        self.out.branch("muon_ntrig_ip_1_eta", "F")
+        self.out.branch("muon_ntrig_ip_1_phi", "F")
+        self.out.branch("muon_ntrig_ip_1_iso", "F")
+        self.out.branch("muon_ntrig_ip_1_dxy", "F")
+        self.out.branch("muon_ntrig_ip_1_dxyErr", "F")
+
+        self.out.branch("muon_ntrig_ip_2_pt", "F")
+        self.out.branch("muon_ntrig_ip_2_eta", "F")
+        self.out.branch("muon_ntrig_ip_2_phi", "F")
+        self.out.branch("muon_ntrig_ip_2_iso", "F")
+        self.out.branch("muon_ntrig_ip_2_dxy", "F")
+        self.out.branch("muon_ntrig_ip_2_dxyErr", "F")
+
+        self.out.branch("muon_ntrig_pt_1_pt", "F")
+        self.out.branch("muon_ntrig_pt_1_eta", "F")
+        self.out.branch("muon_ntrig_pt_1_phi", "F")
+        self.out.branch("muon_ntrig_pt_1_iso", "F")
+        self.out.branch("muon_ntrig_pt_1_dxy", "F")
+        self.out.branch("muon_ntrig_pt_1_dxyErr", "F")
+
+        self.out.branch("muon_ntrig_pt_2_pt", "F")
+        self.out.branch("muon_ntrig_pt_2_eta", "F")
+        self.out.branch("muon_ntrig_pt_2_phi", "F")
+        self.out.branch("muon_ntrig_pt_2_iso", "F")
+        self.out.branch("muon_ntrig_pt_2_dxy", "F")
+        self.out.branch("muon_ntrig_pt_2_dxyErr", "F")
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
@@ -88,7 +109,9 @@ class SVTreeProducer(Module):
 
     def analyze(self, event):
 
-        self.out.fillBranch("counter", 10)
+        n = 10
+
+        self.out.fillBranch("counter", n)
         self.out.fillBranch("double_counter", 30)
         self.out.fillBranch("double_counter", 10)
 
@@ -99,10 +122,10 @@ class SVTreeProducer(Module):
 
         secondary_vertices     = []
         muons                  = []
-        muons_triggering       = []
         muons_by_ip_           = []
-        muons_noTrig           = []
-        muon_noTrig_ptLead     = []
+        muons_by_pt_           = []
+        muons_noTrig_by_ip_    = []
+        muons_noTrig_by_pt_    = []
 
         for sv in _all_svs:
             secondary_vertices.append(sv)
@@ -115,60 +138,88 @@ class SVTreeProducer(Module):
                 continue
             if muon.isGlobal == False:
                 continue
-            # add deltaR
-            # add cosA
  
             muons.append(muon)
             muons_by_ip_.append(muon)
-            self.out.fillBranch("muon_pt", muon.pt)
-            self.out.fillBranch("muon_dxy", muon.dxy)
-            self.out.fillBranch("muon_dxyErr", muon.dxyErr)
-            self.out.fillBranch("muon_eta", muon.eta)
-            self.out.fillBranch("muon_mass", muon.mass)
-            self.out.fillBranch("muon_iso", muon.pfRelIso04_custom)
+            muons_by_pt_.append(muon)
+            
+        muons_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
+        muons_by_pt = sorted(muons_by_ip_,key=lambda x: x.pt, reverse=True)
 
-        print("nMuons:", len(muons))
-        mouns_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
+        count_ip = 0 
+        ind_trig_mu_ip = -1
 
-        for muon in _trig_muons:
-            if muon.isTriggering == False:
-                continue
-            if muon.eta > 2.4:
-                continue
-            if muon.tightId == False:
-                continue
-            if muon.isGlobal == False:
-                continue
-            muons_triggering.append(muon)
-            self.out.fillBranch("muon_pt_triggering", muon.pt)
-            self.out.fillBranch("Trig_muon_pt", muon.pt)
-            self.out.fillBranch("Trig_muon_dxy", muon.dxy)
-            self.out.fillBranch("Trig_muon_dxyErr", muon.dxyErr)
-            self.out.fillBranch("Trig_muon_eta", muon.eta)
-            self.out.fillBranch("Trig_muon_mass", muon.mass)
-            self.out.fillBranch("Trig_muon_iso", muon.pfRelIso04_custom)
-
-        print("TrigMuons:", len(muons_triggering))
-
-        for muon in _all_muons:
+        # fills branches of leading, trig muons by IP
+        for muon in muons_by_ip:
             if muon.isTriggering == True:
-                continue
-            if muon.eta > 2.4:
-                continue
-            if muon.tightId == False:
-                continue
-            if muon.isGlobal == False:
-                continue
-            muons_noTrig.append(muon)
-            self.out.fillBranch("noTrig_muon_pt", muon.pt)
-            self.out.fillBranch("noTrig_muon_dxy", muon.dxy)
-            self.out.fillBranch("noTrig_muon_dxyErr", muon.dxyErr)
-            self.out.fillBranch("noTrig_muon_eta", muon.eta)
-            self.out.fillBranch("noTrig_muon_mass", muon.mass)
-            self.out.fillBranch("noTrig_muon_iso", muon.pfRelIso04_custom)
+                ind_trig_mu_ip = count_ip
+                print("inside if true")
+            else:
+                muons_noTrig_by_ip_.append(muon)
+            count_ip = count_ip+1
+            print(count_ip, ind_trig_mu_ip)
+        if ind_trig_mu_ip != -1:
+            self.out.fillBranch("muon_trig_by_ip_pt", muons_by_ip[ind_trig_mu_ip].pt)
+            self.out.fillBranch("muon_trig_by_ip_eta", muons_by_ip[ind_trig_mu_ip].eta)
+            self.out.fillBranch("muon_trig_by_ip_phi", muons_by_ip[ind_trig_mu_ip].phi)
+            self.out.fillBranch("muon_trig_by_ip_iso", muons_by_ip[ind_trig_mu_ip].pfRelIso04_custom)
+            self.out.fillBranch("muon_trig_by_ip_dxy", muons_by_ip[ind_trig_mu_ip].dxy)
+            self.out.fillBranch("muon_trig_by_ip_dxyErr", muons_by_ip[ind_trig_mu_ip].dxyErr)
 
-        muons_noTrig_by_pt = sorted(muons_noTrig,key=lambda x: x.pt, reverse=True)
-        muons_noTrig_by_d0 = sorted(muons_noTrig,key=lambda x: x.dxy, reverse=True)
+        count_pt = 0
+        ind_trig_mu_pt = -1
+
+        # fills branches of leading, trig muons by pT
+        for muon in muons_by_pt:
+            if muon.isTriggering == True:
+                ind_trig_mu_pt = count_pt
+                print("inside by pT, if true")
+            else:
+                muons_noTrig_by_pt_.append(muon)
+            count_pt = count_pt+1
+            print(count_pt, ind_trig_mu_pt)
+        if ind_trig_mu_pt != -1:
+            self.out.fillBranch("muon_trig_by_pt_pt", muons_by_pt[ind_trig_mu_pt].pt)
+            self.out.fillBranch("muon_trig_by_pt_eta", muons_by_pt[ind_trig_mu_pt].eta)
+            self.out.fillBranch("muon_trig_by_pt_phi", muons_by_pt[ind_trig_mu_pt].phi)
+            self.out.fillBranch("muon_trig_by_pt_iso", muons_by_pt[ind_trig_mu_pt].pfRelIso04_custom)
+            self.out.fillBranch("muon_trig_by_pt_dxy", muons_by_pt[ind_trig_mu_pt].dxy)
+            self.out.fillBranch("muon_trig_by_pt_dxyErr", muons_by_pt[ind_trig_mu_pt].dxyErr)
+
+        # fills branches of leading and subleading, ntrig muons by IP
+        for muon in muons_noTrig_by_ip_:
+            self.out.fillBranch("muon_ntrig_ip_1_pt", muons_noTrig_by_ip_[0].pt)
+            self.out.fillBranch("muon_ntrig_ip_1_eta", muons_noTrig_by_ip_[0].eta)
+            self.out.fillBranch("muon_ntrig_ip_1_phi", muons_noTrig_by_ip_[0].phi)
+            self.out.fillBranch("muon_ntrig_ip_1_iso", muons_noTrig_by_ip_[0].pfRelIso04_custom)
+            self.out.fillBranch("muon_ntrig_ip_1_dxy", muons_noTrig_by_ip_[0].dxy)
+            self.out.fillBranch("muon_ntrig_ip_1_dxyErr", muons_noTrig_by_ip_[0].dxyErr)
+
+            if len(muons_noTrig_by_ip_) > 1:
+                self.out.fillBranch("muon_ntrig_ip_2_pt", muons_noTrig_by_ip_[1].pt)
+                self.out.fillBranch("muon_ntrig_ip_2_eta", muons_noTrig_by_ip_[1].eta)
+                self.out.fillBranch("muon_ntrig_ip_2_phi", muons_noTrig_by_ip_[1].phi)
+                self.out.fillBranch("muon_ntrig_ip_2_iso", muons_noTrig_by_ip_[1].pfRelIso04_custom)
+                self.out.fillBranch("muon_ntrig_ip_2_dxy", muons_noTrig_by_ip_[1].dxy)
+                self.out.fillBranch("muon_ntrig_ip_2_dxyErr", muons_noTrig_by_ip_[1].dxyErr)
+
+        # fills branches of leading and subleading, ntrig muons by pT
+        for muon in muons_noTrig_by_pt_:
+            self.out.fillBranch("muon_ntrig_pt_1_pt", muons_noTrig_by_pt_[0].pt)
+            self.out.fillBranch("muon_ntrig_pt_1_eta", muons_noTrig_by_pt_[0].eta)
+            self.out.fillBranch("muon_ntrig_pt_1_phi", muons_noTrig_by_pt_[0].phi)
+            self.out.fillBranch("muon_ntrig_pt_1_iso", muons_noTrig_by_pt_[0].pfRelIso04_custom)
+            self.out.fillBranch("muon_ntrig_pt_1_dxy", muons_noTrig_by_pt_[0].dxy)
+            self.out.fillBranch("muon_ntrig_pt_1_dxyErr", muons_noTrig_by_pt_[0].dxyErr)
+
+            if len(muons_noTrig_by_pt_) > 1:
+                self.out.fillBranch("muon_ntrig_pt_2_pt", muons_noTrig_by_pt_[1].pt)
+                self.out.fillBranch("muon_ntrig_pt_2_eta", muons_noTrig_by_pt_[1].eta)
+                self.out.fillBranch("muon_ntrig_pt_2_phi", muons_noTrig_by_pt_[1].phi)
+                self.out.fillBranch("muon_ntrig_pt_2_iso", muons_noTrig_by_pt_[1].pfRelIso04_custom)
+                self.out.fillBranch("muon_ntrig_pt_2_dxy", muons_noTrig_by_pt_[1].dxy)
+                self.out.fillBranch("muon_ntrig_pt_2_dxyErr", muons_noTrig_by_pt_[1].dxyErr)
+
 
         for sv in secondary_vertices:
 
