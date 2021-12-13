@@ -4,14 +4,14 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection, Object
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
-from ..helpers.utils import deltaPhi, deltaR, deltaR2, closest, polarP4, sumP4, get_subjets, transverseMass, minValue, configLogger
+from ..helpers.utils import deltaPhi, deltaR, deltaR2, cosA, closest, polarP4, sumP4, get_subjets, transverseMass, minValue, configLogger
 from ..helpers.triggerHelper import passTrigger
 
 import logging
 logger = logging.getLogger('nano')
 configLogger('nano', loglevel=logging.INFO)
 
-lumi_dict = {2016: 35.92, 2017: 41.53, 2018: 59.74}
+lumi_dict = { 2018: 41.599}
 
 
 class _NullObject:
@@ -79,8 +79,11 @@ class SVTreeProducer(Module):
         self.out.branch("muon_ntrig_ip_1_eta", "F")
         self.out.branch("muon_ntrig_ip_1_phi", "F")
         self.out.branch("muon_ntrig_ip_1_iso", "F")
-        self.out.branch("muon_ntrig_ip_1_dxy", "F")
+        self.out.branch("muon_ntrig_ip_1_dxy", "F") 
         self.out.branch("muon_ntrig_ip_1_dxyErr", "F")
+        self.out.branch("muon_ntrig_ip_1_deltaR", "F")
+        self.out.branch("muon_ntrig_ip_1_cosA", "F")
+
 
         self.out.branch("muon_ntrig_ip_2_pt", "F")
         self.out.branch("muon_ntrig_ip_2_eta", "F")
@@ -95,6 +98,8 @@ class SVTreeProducer(Module):
         self.out.branch("muon_ntrig_pt_1_iso", "F")
         self.out.branch("muon_ntrig_pt_1_dxy", "F")
         self.out.branch("muon_ntrig_pt_1_dxyErr", "F")
+        self.out.branch("muon_ntrig_pt_1_deltaR", "F")
+        self.out.branch("muon_ntrig_pt_1_cosA", "F")
 
         self.out.branch("muon_ntrig_pt_2_pt", "F")
         self.out.branch("muon_ntrig_pt_2_eta", "F")
@@ -142,6 +147,7 @@ class SVTreeProducer(Module):
             muons.append(muon)
             muons_by_ip_.append(muon)
             muons_by_pt_.append(muon)
+
             
         muons_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
         muons_by_pt = sorted(muons_by_pt_,key=lambda x: x.pt, reverse=True)
@@ -194,6 +200,9 @@ class SVTreeProducer(Module):
             self.out.fillBranch("muon_ntrig_ip_1_iso", muons_noTrig_by_ip_[0].pfRelIso04_custom)
             self.out.fillBranch("muon_ntrig_ip_1_dxy", muons_noTrig_by_ip_[0].dxy)
             self.out.fillBranch("muon_ntrig_ip_1_dxyErr", muons_noTrig_by_ip_[0].dxyErr)
+            self.out.fillBranch("muon_ntrig_ip_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_ip_[0].phi,muons_noTrig_by_ip_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest IP
+            self.out.fillBranch("muon_ntrig_ip_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_ip_[0].px,muons_noTrig_by_ip_[0].py,muons_noTrig_by_ip_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest IP
+
 
             if len(muons_noTrig_by_ip_) > 1:
                 self.out.fillBranch("muon_ntrig_ip_2_pt", muons_noTrig_by_ip_[1].pt)
@@ -211,6 +220,10 @@ class SVTreeProducer(Module):
             self.out.fillBranch("muon_ntrig_pt_1_iso", muons_noTrig_by_pt_[0].pfRelIso04_custom)
             self.out.fillBranch("muon_ntrig_pt_1_dxy", muons_noTrig_by_pt_[0].dxy)
             self.out.fillBranch("muon_ntrig_pt_1_dxyErr", muons_noTrig_by_pt_[0].dxyErr)
+            self.out.fillBranch("muon_ntrig_pt_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_pt_[0].phi,muons_noTrig_by_pt_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest pt
+            self.out.fillBranch("muon_ntrig_pt_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_pt_[0].px,muons_noTrig_by_pt_[0].py,muons_noTrig_by_pt_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest pt
+
+
 
             if len(muons_noTrig_by_pt_) > 1:
                 self.out.fillBranch("muon_ntrig_pt_2_pt", muons_noTrig_by_pt_[1].pt)

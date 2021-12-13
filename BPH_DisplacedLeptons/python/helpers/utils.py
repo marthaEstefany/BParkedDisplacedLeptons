@@ -34,6 +34,9 @@ def deltaR(eta1, phi1, eta2=None, phi2=None):
     return math.sqrt(deltaR2(eta1, phi1, eta2, phi2))
 
 
+def cosA(px1, py1, pz1, px2, py2, pz2):
+    return ( (px1*px2+py1*py2+pz1*pz2)/(math.sqrt(px1*px1+py1*py1+pz1*pz1)*math.sqrt(px2*px2+py2*py2+pz2*pz2)) )
+
 def closest(obj, collection, presel=lambda x, y: True):
     ret = None
     dr2Min = 1e6
