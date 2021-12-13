@@ -59,7 +59,7 @@ class SVTreeProducer(Module):
         self.out.branch("double_counter", "I")
 
         # reco properties
-        self.out.branch("sv_pt", "F")
+        #self.out.branch("sv_pt", "F")
 
         self.out.branch("muon_trig_by_ip_pt", "F")
         self.out.branch("muon_trig_by_ip_eta", "F")
@@ -109,13 +109,13 @@ class SVTreeProducer(Module):
 
     def analyze(self, event):
 
-        n = 10
+        #n = 10
 
-        self.out.fillBranch("counter", n)
-        self.out.fillBranch("double_counter", 30)
-        self.out.fillBranch("double_counter", 10)
+        #self.out.fillBranch("counter", n)
+        #self.out.fillBranch("double_counter", 30)
+        #self.out.fillBranch("double_counter", 10)
 
-        _all_svs    = Collection(event, 'SV')
+        #_all_svs    = Collection(event, 'SV')
         _all_muons  = Collection(event, 'Muon')
         _trig_muons = Collection(event, 'Muon')
         _lead_muons = Collection(event, 'Muon')
@@ -127,8 +127,8 @@ class SVTreeProducer(Module):
         muons_noTrig_by_ip_    = []
         muons_noTrig_by_pt_    = []
 
-        for sv in _all_svs:
-            secondary_vertices.append(sv)
+        #for sv in _all_svs:
+        #    secondary_vertices.append(sv)
 
         for muon in _all_muons:
             #apply cuts here
@@ -144,7 +144,7 @@ class SVTreeProducer(Module):
             muons_by_pt_.append(muon)
             
         muons_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
-        muons_by_pt = sorted(muons_by_ip_,key=lambda x: x.pt, reverse=True)
+        muons_by_pt = sorted(muons_by_pt_,key=lambda x: x.pt, reverse=True)
 
         count_ip = 0 
         ind_trig_mu_ip = -1
@@ -221,10 +221,10 @@ class SVTreeProducer(Module):
                 self.out.fillBranch("muon_ntrig_pt_2_dxyErr", muons_noTrig_by_pt_[1].dxyErr)
 
 
-        for sv in secondary_vertices:
+        #for sv in secondary_vertices:
 
-            # TODO: reco sv properties
-            self.out.fillBranch("sv_pt", sv.pt)
+        #    # TODO: reco sv properties
+        #    self.out.fillBranch("sv_pt", sv.pt)
         
         self.out.fill()
         # return False here as we have already filled the tree manually
