@@ -21,8 +21,8 @@ scram b -j8
 #### Run a test interactively
 ```
 cd PhysicsTools/BPH_DisplacedLeptons/run
-python3 runPostProcessing.py -i /eos/uscms/store/user/manunezo/BParkingNANO_2021Oct06/ParkingBPH1/ -o output -d samples/2018/train.yaml -c 'nSV>0' --friend -I PhysicsTools.BPH_DisplacedLeptons.producers.svTreeProducer svTree -n 1
+python3 runTrees.py -i /home/alesauva/CMSSW_10_2_15/src/PhysicsTools/BParkingNano/test -o output -d samples/2018/2L_mc.yaml -c 'nSV>0' --friend -I PhysicsTools.BPH_DisplacedLeptons.producers.svTreeProducer svTree --year 2018
 
-cd jobs
+cd jobs_output_2018_2L/mc
 ./processor.py 0
 ```
