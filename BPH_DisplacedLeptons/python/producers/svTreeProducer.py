@@ -159,6 +159,8 @@ class SVTreeProducer(Module):
   
 
     def analyze(self, event):
+        muon_general=[]
+        muon_general_Triggering=[]
         muon_trigger=[]
         muon_Ntrigger=[]
    
@@ -168,24 +170,24 @@ class SVTreeProducer(Module):
         if event.nMuon<2.0:
            return False
         for muon in _all_muons:
-            print("AL muon:", muon)
             #apply cuts here
-            if abs(muon.eta) > 2.4:
-                return False
-            if muon.tightId == False:
-                return False
-            if muon.isGlobal == False:
-                return False
+            if (abs(muon.eta) < 2.4) & (muon.tightId == True) & (muon.isGlobal == True):
+                muon_general.append(muon)
+                if muon.isTriggering==True:
+                   muon_general_Triggering.append(muon)
+        if (len(muon_general)<2) or (len(muon_general_Triggering)<1):
+           return False
         #The second loop is for setting the list of muon for each event
         _all_muons2  = Collection(event, 'Muon')
         for muons in _all_muons2:
             print("AL muon event:", event.event)
             print("AL muon event:", muons.eta, muons.tightId, muons.isGlobal)
-            print("AL istriggering: ", muons.isTriggering)
-            if muons.isTriggering ==True:
-               muon_trigger.append(muons)
-            else:
-               muon_Ntrigger.append(muons)
+            if (abs(muons.eta) < 2.4) & (muons.tightId == True) & (muons.isGlobal == True):
+               print("AL istriggering: ", muons.isTriggering)
+               if muons.isTriggering ==True:
+                  muon_trigger.append(muons)
+               else:
+                  muon_Ntrigger.append(muons)
                print("Ntrigger muon iso, ip", muons.pfRelIso04_custom, muons.dxy)
         #Filling lead muon = triggering muon
         self.out.fillBranch("Triggering_muon_isTriggering", muon_trigger[0].isTriggering)
