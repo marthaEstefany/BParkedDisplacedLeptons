@@ -61,52 +61,52 @@ class SVTreeProducer(Module):
         # reco properties
         #self.out.branch("sv_pt", "F")
 
-        self.out.branch("muon_trig_by_ip_pt", "F")
-        self.out.branch("muon_trig_by_ip_eta", "F")
-        self.out.branch("muon_trig_by_ip_phi", "F")
-        self.out.branch("muon_trig_by_ip_iso", "F")
-        self.out.branch("muon_trig_by_ip_dxy", "F")
-        self.out.branch("muon_trig_by_ip_dxyErr", "F")
-
-        self.out.branch("muon_trig_by_pt_pt", "F")
-        self.out.branch("muon_trig_by_pt_eta", "F")
-        self.out.branch("muon_trig_by_pt_phi", "F")
-        self.out.branch("muon_trig_by_pt_iso", "F")
-        self.out.branch("muon_trig_by_pt_dxy", "F")
-        self.out.branch("muon_trig_by_pt_dxyErr", "F")
-
-        self.out.branch("muon_ntrig_ip_1_pt", "F")
-        self.out.branch("muon_ntrig_ip_1_eta", "F")
-        self.out.branch("muon_ntrig_ip_1_phi", "F")
-        self.out.branch("muon_ntrig_ip_1_iso", "F")
-        self.out.branch("muon_ntrig_ip_1_dxy", "F") 
-        self.out.branch("muon_ntrig_ip_1_dxyErr", "F")
-        self.out.branch("muon_ntrig_ip_1_deltaR", "F")
-        self.out.branch("muon_ntrig_ip_1_cosA", "F")
-
-
-        self.out.branch("muon_ntrig_ip_2_pt", "F")
-        self.out.branch("muon_ntrig_ip_2_eta", "F")
-        self.out.branch("muon_ntrig_ip_2_phi", "F")
-        self.out.branch("muon_ntrig_ip_2_iso", "F")
-        self.out.branch("muon_ntrig_ip_2_dxy", "F")
-        self.out.branch("muon_ntrig_ip_2_dxyErr", "F")
-
-        self.out.branch("muon_ntrig_pt_1_pt", "F")
-        self.out.branch("muon_ntrig_pt_1_eta", "F")
-        self.out.branch("muon_ntrig_pt_1_phi", "F")
-        self.out.branch("muon_ntrig_pt_1_iso", "F")
-        self.out.branch("muon_ntrig_pt_1_dxy", "F")
-        self.out.branch("muon_ntrig_pt_1_dxyErr", "F")
-        self.out.branch("muon_ntrig_pt_1_deltaR", "F")
-        self.out.branch("muon_ntrig_pt_1_cosA", "F")
-
-        self.out.branch("muon_ntrig_pt_2_pt", "F")
-        self.out.branch("muon_ntrig_pt_2_eta", "F")
-        self.out.branch("muon_ntrig_pt_2_phi", "F")
-        self.out.branch("muon_ntrig_pt_2_iso", "F")
-        self.out.branch("muon_ntrig_pt_2_dxy", "F")
-        self.out.branch("muon_ntrig_pt_2_dxyErr", "F")
+#        self.out.branch("muon_trig_by_ip_pt", "F")
+#        self.out.branch("muon_trig_by_ip_eta", "F")
+#        self.out.branch("muon_trig_by_ip_phi", "F")
+#        self.out.branch("muon_trig_by_ip_iso", "F")
+#        self.out.branch("muon_trig_by_ip_dxy", "F")
+#        self.out.branch("muon_trig_by_ip_dxyErr", "F")
+#
+#        self.out.branch("muon_trig_by_pt_pt", "F")
+#        self.out.branch("muon_trig_by_pt_eta", "F")
+#        self.out.branch("muon_trig_by_pt_phi", "F")
+#        self.out.branch("muon_trig_by_pt_iso", "F")
+#        self.out.branch("muon_trig_by_pt_dxy", "F")
+#        self.out.branch("muon_trig_by_pt_dxyErr", "F")
+#
+#        self.out.branch("muon_ntrig_ip_1_pt", "F")
+#        self.out.branch("muon_ntrig_ip_1_eta", "F")
+#        self.out.branch("muon_ntrig_ip_1_phi", "F")
+#        self.out.branch("muon_ntrig_ip_1_iso", "F")
+#        self.out.branch("muon_ntrig_ip_1_dxy", "F") 
+#        self.out.branch("muon_ntrig_ip_1_dxyErr", "F")
+#        self.out.branch("muon_ntrig_ip_1_deltaR", "F")
+#        self.out.branch("muon_ntrig_ip_1_cosA", "F")
+#
+#
+#        self.out.branch("muon_ntrig_ip_2_pt", "F")
+#        self.out.branch("muon_ntrig_ip_2_eta", "F")
+#        self.out.branch("muon_ntrig_ip_2_phi", "F")
+#        self.out.branch("muon_ntrig_ip_2_iso", "F")
+#        self.out.branch("muon_ntrig_ip_2_dxy", "F")
+#        self.out.branch("muon_ntrig_ip_2_dxyErr", "F")
+#
+#        self.out.branch("muon_ntrig_pt_1_pt", "F")
+#        self.out.branch("muon_ntrig_pt_1_eta", "F")
+#        self.out.branch("muon_ntrig_pt_1_phi", "F")
+#        self.out.branch("muon_ntrig_pt_1_iso", "F")
+#        self.out.branch("muon_ntrig_pt_1_dxy", "F")
+#        self.out.branch("muon_ntrig_pt_1_dxyErr", "F")
+#        self.out.branch("muon_ntrig_pt_1_deltaR", "F")
+#        self.out.branch("muon_ntrig_pt_1_cosA", "F")
+#
+#        self.out.branch("muon_ntrig_pt_2_pt", "F")
+#        self.out.branch("muon_ntrig_pt_2_eta", "F")
+#        self.out.branch("muon_ntrig_pt_2_phi", "F")
+#        self.out.branch("muon_ntrig_pt_2_iso", "F")
+#        self.out.branch("muon_ntrig_pt_2_dxy", "F")
+#        self.out.branch("muon_ntrig_pt_2_dxyErr", "F")
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
@@ -121,127 +121,127 @@ class SVTreeProducer(Module):
         #self.out.fillBranch("double_counter", 10)
 
         #_all_svs    = Collection(event, 'SV')
-        _all_muons  = Collection(event, 'Muon')
-        _trig_muons = Collection(event, 'Muon')
-        _lead_muons = Collection(event, 'Muon')
+        #_all_muons  = Collection(event, 'Muon')
+        #_trig_muons = Collection(event, 'Muon')
+        #_lead_muons = Collection(event, 'Muon')
 
-        secondary_vertices     = []
-        muons                  = []
-        muons_by_ip_           = []
-        muons_by_pt_           = []
-        muons_noTrig_by_ip_    = []
-        muons_noTrig_by_pt_    = []
+        #secondary_vertices     = []
+        #muons                  = []
+        #muons_by_ip_           = []
+        #muons_by_pt_           = []
+        #muons_noTrig_by_ip_    = []
+        #muons_noTrig_by_pt_    = []
 
         #for sv in _all_svs:
         #    secondary_vertices.append(sv)
 
-        for muon in _all_muons:
-            #apply cuts here
-            if muon.eta > 2.4:
-                continue
-            if muon.tightId == False:
-                continue
-            if muon.isGlobal == False:
-                continue
+        #for muon in _all_muons:
+        #    #apply cuts here
+        #    if muon.eta > 2.4:
+        #        continue
+        #    if muon.tightId == False:
+        #        continue
+        #    if muon.isGlobal == False:
+        #        continue
  
-            muons.append(muon)
-            muons_by_ip_.append(muon)
-            muons_by_pt_.append(muon)
+        #    muons.append(muon)
+        #    muons_by_ip_.append(muon)
+        #    muons_by_pt_.append(muon)
 
             
-        muons_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
-        muons_by_pt = sorted(muons_by_pt_,key=lambda x: x.pt, reverse=True)
+        #muons_by_ip = sorted(muons_by_ip_,key=lambda x: x.dxy, reverse=True)
+        #muons_by_pt = sorted(muons_by_pt_,key=lambda x: x.pt, reverse=True)
 
-        count_ip = 0 
-        ind_trig_mu_ip = -1
+        #count_ip = 0 
+        #ind_trig_mu_ip = -1
 
-        # fills branches of leading, trig muons by IP
-        for muon in muons_by_ip:
-            if muon.isTriggering == True:
-                ind_trig_mu_ip = count_ip
-                print("inside if true")
-            else:
-                muons_noTrig_by_ip_.append(muon)
-            count_ip = count_ip+1
-            print(count_ip, ind_trig_mu_ip)
-        if ind_trig_mu_ip != -1:
-            self.out.fillBranch("muon_trig_by_ip_pt", muons_by_ip[ind_trig_mu_ip].pt)
-            self.out.fillBranch("muon_trig_by_ip_eta", muons_by_ip[ind_trig_mu_ip].eta)
-            self.out.fillBranch("muon_trig_by_ip_phi", muons_by_ip[ind_trig_mu_ip].phi)
-            self.out.fillBranch("muon_trig_by_ip_iso", muons_by_ip[ind_trig_mu_ip].pfRelIso04_custom)
-            self.out.fillBranch("muon_trig_by_ip_dxy", muons_by_ip[ind_trig_mu_ip].dxy)
-            self.out.fillBranch("muon_trig_by_ip_dxyErr", muons_by_ip[ind_trig_mu_ip].dxyErr)
+        ## fills branches of leading, trig muons by IP
+        #for muon in muons_by_ip:
+        #    if muon.isTriggering == True:
+        #        ind_trig_mu_ip = count_ip
+        #        print("inside if true")
+        #    else:
+        #        muons_noTrig_by_ip_.append(muon)
+        #    count_ip = count_ip+1
+        #    print(count_ip, ind_trig_mu_ip)
+        #if ind_trig_mu_ip != -1:
+        #    self.out.fillBranch("muon_trig_by_ip_pt", muons_by_ip[ind_trig_mu_ip].pt)
+        #    self.out.fillBranch("muon_trig_by_ip_eta", muons_by_ip[ind_trig_mu_ip].eta)
+        #    self.out.fillBranch("muon_trig_by_ip_phi", muons_by_ip[ind_trig_mu_ip].phi)
+        #    self.out.fillBranch("muon_trig_by_ip_iso", muons_by_ip[ind_trig_mu_ip].pfRelIso04_custom)
+        #    self.out.fillBranch("muon_trig_by_ip_dxy", muons_by_ip[ind_trig_mu_ip].dxy)
+        #    self.out.fillBranch("muon_trig_by_ip_dxyErr", muons_by_ip[ind_trig_mu_ip].dxyErr)
 
-        count_pt = 0
-        ind_trig_mu_pt = -1
+        #count_pt = 0
+        #ind_trig_mu_pt = -1
 
-        # fills branches of leading, trig muons by pT
-        for muon in muons_by_pt:
-            if muon.isTriggering == True:
-                ind_trig_mu_pt = count_pt
-                print("inside by pT, if true")
-            else:
-                muons_noTrig_by_pt_.append(muon)
-            count_pt = count_pt+1
-            print(count_pt, ind_trig_mu_pt)
-        if ind_trig_mu_pt != -1:
-            self.out.fillBranch("muon_trig_by_pt_pt", muons_by_pt[ind_trig_mu_pt].pt)
-            self.out.fillBranch("muon_trig_by_pt_eta", muons_by_pt[ind_trig_mu_pt].eta)
-            self.out.fillBranch("muon_trig_by_pt_phi", muons_by_pt[ind_trig_mu_pt].phi)
-            self.out.fillBranch("muon_trig_by_pt_iso", muons_by_pt[ind_trig_mu_pt].pfRelIso04_custom)
-            self.out.fillBranch("muon_trig_by_pt_dxy", muons_by_pt[ind_trig_mu_pt].dxy)
-            self.out.fillBranch("muon_trig_by_pt_dxyErr", muons_by_pt[ind_trig_mu_pt].dxyErr)
+        ## fills branches of leading, trig muons by pT
+        #for muon in muons_by_pt:
+        #    if muon.isTriggering == True:
+        #        ind_trig_mu_pt = count_pt
+        #        print("inside by pT, if true")
+        #    else:
+        #        muons_noTrig_by_pt_.append(muon)
+        #    count_pt = count_pt+1
+        #    print(count_pt, ind_trig_mu_pt)
+        #if ind_trig_mu_pt != -1:
+        #    self.out.fillBranch("muon_trig_by_pt_pt", muons_by_pt[ind_trig_mu_pt].pt)
+        #    self.out.fillBranch("muon_trig_by_pt_eta", muons_by_pt[ind_trig_mu_pt].eta)
+        #    self.out.fillBranch("muon_trig_by_pt_phi", muons_by_pt[ind_trig_mu_pt].phi)
+        #    self.out.fillBranch("muon_trig_by_pt_iso", muons_by_pt[ind_trig_mu_pt].pfRelIso04_custom)
+        #    self.out.fillBranch("muon_trig_by_pt_dxy", muons_by_pt[ind_trig_mu_pt].dxy)
+        #    self.out.fillBranch("muon_trig_by_pt_dxyErr", muons_by_pt[ind_trig_mu_pt].dxyErr)
 
-        # fills branches of leading and subleading, ntrig muons by IP
-        for muon in muons_noTrig_by_ip_:
-            self.out.fillBranch("muon_ntrig_ip_1_pt", muons_noTrig_by_ip_[0].pt)
-            self.out.fillBranch("muon_ntrig_ip_1_eta", muons_noTrig_by_ip_[0].eta)
-            self.out.fillBranch("muon_ntrig_ip_1_phi", muons_noTrig_by_ip_[0].phi)
-            self.out.fillBranch("muon_ntrig_ip_1_iso", muons_noTrig_by_ip_[0].pfRelIso04_custom)
-            self.out.fillBranch("muon_ntrig_ip_1_dxy", muons_noTrig_by_ip_[0].dxy)
-            self.out.fillBranch("muon_ntrig_ip_1_dxyErr", muons_noTrig_by_ip_[0].dxyErr)
-            self.out.fillBranch("muon_ntrig_ip_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_ip_[0].phi,muons_noTrig_by_ip_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest IP
-            self.out.fillBranch("muon_ntrig_ip_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_ip_[0].px,muons_noTrig_by_ip_[0].py,muons_noTrig_by_ip_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest IP
-
-
-            if len(muons_noTrig_by_ip_) > 1:
-                self.out.fillBranch("muon_ntrig_ip_2_pt", muons_noTrig_by_ip_[1].pt)
-                self.out.fillBranch("muon_ntrig_ip_2_eta", muons_noTrig_by_ip_[1].eta)
-                self.out.fillBranch("muon_ntrig_ip_2_phi", muons_noTrig_by_ip_[1].phi)
-                self.out.fillBranch("muon_ntrig_ip_2_iso", muons_noTrig_by_ip_[1].pfRelIso04_custom)
-                self.out.fillBranch("muon_ntrig_ip_2_dxy", muons_noTrig_by_ip_[1].dxy)
-                self.out.fillBranch("muon_ntrig_ip_2_dxyErr", muons_noTrig_by_ip_[1].dxyErr)
-
-        # fills branches of leading and subleading, ntrig muons by pT
-        for muon in muons_noTrig_by_pt_:
-            self.out.fillBranch("muon_ntrig_pt_1_pt", muons_noTrig_by_pt_[0].pt)
-            self.out.fillBranch("muon_ntrig_pt_1_eta", muons_noTrig_by_pt_[0].eta)
-            self.out.fillBranch("muon_ntrig_pt_1_phi", muons_noTrig_by_pt_[0].phi)
-            self.out.fillBranch("muon_ntrig_pt_1_iso", muons_noTrig_by_pt_[0].pfRelIso04_custom)
-            self.out.fillBranch("muon_ntrig_pt_1_dxy", muons_noTrig_by_pt_[0].dxy)
-            self.out.fillBranch("muon_ntrig_pt_1_dxyErr", muons_noTrig_by_pt_[0].dxyErr)
-            self.out.fillBranch("muon_ntrig_pt_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_pt_[0].phi,muons_noTrig_by_pt_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest pt
-            self.out.fillBranch("muon_ntrig_pt_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_pt_[0].px,muons_noTrig_by_pt_[0].py,muons_noTrig_by_pt_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest pt
+        ## fills branches of leading and subleading, ntrig muons by IP
+        #for muon in muons_noTrig_by_ip_:
+        #    self.out.fillBranch("muon_ntrig_ip_1_pt", muons_noTrig_by_ip_[0].pt)
+        #    self.out.fillBranch("muon_ntrig_ip_1_eta", muons_noTrig_by_ip_[0].eta)
+        #    self.out.fillBranch("muon_ntrig_ip_1_phi", muons_noTrig_by_ip_[0].phi)
+        #    self.out.fillBranch("muon_ntrig_ip_1_iso", muons_noTrig_by_ip_[0].pfRelIso04_custom)
+        #    self.out.fillBranch("muon_ntrig_ip_1_dxy", muons_noTrig_by_ip_[0].dxy)
+        #    self.out.fillBranch("muon_ntrig_ip_1_dxyErr", muons_noTrig_by_ip_[0].dxyErr)
+        #    self.out.fillBranch("muon_ntrig_ip_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_ip_[0].phi,muons_noTrig_by_ip_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest IP
+        #    self.out.fillBranch("muon_ntrig_ip_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_ip_[0].px,muons_noTrig_by_ip_[0].py,muons_noTrig_by_ip_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest IP
 
 
+        #    if len(muons_noTrig_by_ip_) > 1:
+        #        self.out.fillBranch("muon_ntrig_ip_2_pt", muons_noTrig_by_ip_[1].pt)
+        #        self.out.fillBranch("muon_ntrig_ip_2_eta", muons_noTrig_by_ip_[1].eta)
+        #        self.out.fillBranch("muon_ntrig_ip_2_phi", muons_noTrig_by_ip_[1].phi)
+        #        self.out.fillBranch("muon_ntrig_ip_2_iso", muons_noTrig_by_ip_[1].pfRelIso04_custom)
+        #        self.out.fillBranch("muon_ntrig_ip_2_dxy", muons_noTrig_by_ip_[1].dxy)
+        #        self.out.fillBranch("muon_ntrig_ip_2_dxyErr", muons_noTrig_by_ip_[1].dxyErr)
 
-            if len(muons_noTrig_by_pt_) > 1:
-                self.out.fillBranch("muon_ntrig_pt_2_pt", muons_noTrig_by_pt_[1].pt)
-                self.out.fillBranch("muon_ntrig_pt_2_eta", muons_noTrig_by_pt_[1].eta)
-                self.out.fillBranch("muon_ntrig_pt_2_phi", muons_noTrig_by_pt_[1].phi)
-                self.out.fillBranch("muon_ntrig_pt_2_iso", muons_noTrig_by_pt_[1].pfRelIso04_custom)
-                self.out.fillBranch("muon_ntrig_pt_2_dxy", muons_noTrig_by_pt_[1].dxy)
-                self.out.fillBranch("muon_ntrig_pt_2_dxyErr", muons_noTrig_by_pt_[1].dxyErr)
+        ## fills branches of leading and subleading, ntrig muons by pT
+        #for muon in muons_noTrig_by_pt_:
+        #    self.out.fillBranch("muon_ntrig_pt_1_pt", muons_noTrig_by_pt_[0].pt)
+        #    self.out.fillBranch("muon_ntrig_pt_1_eta", muons_noTrig_by_pt_[0].eta)
+        #    self.out.fillBranch("muon_ntrig_pt_1_phi", muons_noTrig_by_pt_[0].phi)
+        #    self.out.fillBranch("muon_ntrig_pt_1_iso", muons_noTrig_by_pt_[0].pfRelIso04_custom)
+        #    self.out.fillBranch("muon_ntrig_pt_1_dxy", muons_noTrig_by_pt_[0].dxy)
+        #    self.out.fillBranch("muon_ntrig_pt_1_dxyErr", muons_noTrig_by_pt_[0].dxyErr)
+        #    self.out.fillBranch("muon_ntrig_pt_1_deltaR", deltaR(muons_by_pt[0].phi, muons_by_pt[0].eta,muons_noTrig_by_pt_[0].phi,muons_noTrig_by_pt_[0].eta)) #add deltaR between triggering muon and non triggering muon with highest pt
+        #    self.out.fillBranch("muon_ntrig_pt_1_cosA", cosA(muons_by_pt[0].px, muons_by_pt[0].py,muons_by_pt[0].pz,muons_noTrig_by_pt_[0].px,muons_noTrig_by_pt_[0].py,muons_noTrig_by_pt_[0].pz)) #add cos3D between triggering muon and non triggering muon with highest pt
 
 
-        #for sv in secondary_vertices:
 
-        #    # TODO: reco sv properties
-        #    self.out.fillBranch("sv_pt", sv.pt)
-        
-        self.out.fill()
-        # return False here as we have already filled the tree manually
-        return False
+        #    if len(muons_noTrig_by_pt_) > 1:
+        #        self.out.fillBranch("muon_ntrig_pt_2_pt", muons_noTrig_by_pt_[1].pt)
+        #        self.out.fillBranch("muon_ntrig_pt_2_eta", muons_noTrig_by_pt_[1].eta)
+        #        self.out.fillBranch("muon_ntrig_pt_2_phi", muons_noTrig_by_pt_[1].phi)
+        #        self.out.fillBranch("muon_ntrig_pt_2_iso", muons_noTrig_by_pt_[1].pfRelIso04_custom)
+        #        self.out.fillBranch("muon_ntrig_pt_2_dxy", muons_noTrig_by_pt_[1].dxy)
+        #        self.out.fillBranch("muon_ntrig_pt_2_dxyErr", muons_noTrig_by_pt_[1].dxyErr)
+
+
+        ##for sv in secondary_vertices:
+
+        ##    # TODO: reco sv properties
+        ##    self.out.fillBranch("sv_pt", sv.pt)
+        #
+        #self.out.fill()
+        ## return False here as we have already filled the tree manually
+        #return False
 
 
 # define modules using the syntax 'name = lambda : constructor' to avoid having them loaded when not needed
