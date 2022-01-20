@@ -151,20 +151,15 @@ class SVTreeProducer(Module):
           # self.out.branch("muon_SFWeight", "F")
           # self.out.branch("muon_totWeight", "F") 
 
-
-
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
-    
-  
-
+   
     def analyze(self, event):
         muon_general=[]
         muon_general_Triggering=[]
         muon_trigger=[]
         muon_Ntrigger=[]
    
-
         _all_muons  = Collection(event, 'Muon')
         #The first loop is for pre-selection
         if event.nMuon<2.0:
@@ -320,9 +315,7 @@ class SVTreeProducer(Module):
                #self.out.fillBranch("muon_xsWeight", XSW) 
         #self.out.fill()
                   
-                         
-
-            
+                                   
         return True
 
 
