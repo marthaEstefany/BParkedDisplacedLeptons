@@ -16,12 +16,15 @@ git clone git@github.com:marthaEstefany/BParkedDisplacedLeptons
 #### Compile
 ```
 cd ..
-scram b -j8
+scram b -j 8
 ```
-#### Run a test interactively
+#### To produce trees interactively
 ```
+#Create the metadata json file 
+python3 runPostProcessing.py -i /home/alesauva/CMSSW_10_2_15/src/PhysicsTools/BParkingNano/test -o output -d samples/2L_mc.yaml -c 'nSV>0' --friend -I PhysicsTools.BPH_DisplacedLeptons.producers.svTreeProducer svTree -n 1
+#Prepare the jobs
 cd PhysicsTools/BPH_DisplacedLeptons/run
-python3 runTrees.py -i /home/alesauva/CMSSW_10_2_15/src/PhysicsTools/BParkingNano/test -o output -d samples/2018/2L_mc.yaml -c 'nSV>0' --friend -I PhysicsTools.BPH_DisplacedLeptons.producers.svTreeProducer svTree --year 2018
+python3 runTrees.py -i /home/alesauva/CMSSW_10_2_15/src/PhysicsTools/BParkingNano/test -o output -d samples/2L_mc.yaml -c 'nSV>0' --friend -I PhysicsTools.BPH_DisplacedLeptons.producers.svTreeProducer svTree --year 2018
 
 cd jobs_output_2018_2L/mc
 ./processor.py 0

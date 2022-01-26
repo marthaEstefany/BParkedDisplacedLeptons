@@ -139,7 +139,7 @@ class SVTreeProducer(Module):
            XSW=0
            converted_in = "{}".format(inputFile)
            #print(converted_in)
-           input = re.search('/home/alesauva/CMSSW_10_2_15/src/PhysicsTools/BParkingNano/test/(.+?)/', converted_in).group(1)
+           input = re.search('/eos/uscms/store/user/alesauva/BParkingNANO_2022Jan20/(.+?)/', converted_in).group(1) #To be replaced with the input file directory
            for i in range(len(md['xsecWgt'])):
               if md['xsecWgt'][i][0]==input:
                  XSW=md['xsecWgt'][i][1]
