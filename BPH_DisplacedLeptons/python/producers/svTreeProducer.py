@@ -4,7 +4,7 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection, Object
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
-from ..helpers.utils import deltaPhi, deltaR, deltaR2, cosA, closest, polarP4, sumP4, get_subjets, transverseMass, minValue, configLogger
+from ..helpers.utils import deltaPhi, deltaR, deltaR2, cosA, closest, polarP4, sumP4, get_subjets, transverseMass, invariantMass, minValue, configLogger
 from ..helpers.triggerHelper import passTrigger
 
 
@@ -65,70 +65,18 @@ class SVTreeProducer(Module):
         # reco properties
         self.out.branch("Event", "F")
         self.out.branch("muon_N", "F")
-        self.out.branch("DeltaR", "F")
-        self.out.branch("cosA", "F")
+        self.out.branch("nSV", "F")
+        self.out.branch("nOtherPV", "F")
+        #self.out.branch("GenPart_pdgId", "F")
+        #self.out.branch("GenPart_genPartIdxMother", "F")
         self.out.branch("Triggering_muon_isTriggering", "O")
-        self.out.branch("Triggering_muon_px", "F")
-        self.out.branch("Triggering_muon_pz", "F")
-        self.out.branch("Triggering_muon_pt", "F")
-        self.out.branch("Triggering_muon_dxy", "F")
-        self.out.branch("Triggering_muon_dxyErr", "F")
-        self.out.branch("Triggering_muon_eta", "F")
-        self.out.branch("Triggering_muon_phi", "F")
-        self.out.branch("Triggering_muon_mass", "F")
-        self.out.branch("Triggering_muon_iso", "F")
+        for var in ["px","py","pz","pt","dxy","dxyErr","dz","ip3d","charge","pdgId","eta","phi","mass","iso","genPartIdx","genPartFlav"]:
+           self.out.branch("Triggering_muon_%s" % (var), "F")
 
-        self.out.branch("nTriggering_iso_muon_isTriggering", "O")
-        self.out.branch("nTriggering_iso_muon_px", "F")
-        self.out.branch("nTriggering_iso_muon_pz", "F")
-        self.out.branch("nTriggering_iso_muon_pt", "F")
-        self.out.branch("nTriggering_iso_muon_dxy", "F")
-        self.out.branch("nTriggering_iso_muon_dxyErr", "F")
-        self.out.branch("nTriggering_iso_muon_eta", "F")
-        self.out.branch("nTriggering_iso_muon_phi", "F")
-        self.out.branch("nTriggering_iso_muon_mass", "F")
-        self.out.branch("nTriggering_iso_muon_iso", "F")
-        self.out.branch("nTriggering_iso_muon_cosA", "F")
-        self.out.branch("nTriggering_iso_muon_deltaR", "F")         
-
-        self.out.branch("nTriggering_IP_muon_isTriggering", "O")
-        self.out.branch("nTriggering_IP_muon_px", "F")
-        self.out.branch("nTriggering_IP_muon_pz", "F")
-        self.out.branch("nTriggering_IP_muon_pt", "F")
-        self.out.branch("nTriggering_IP_muon_dxy", "F")
-        self.out.branch("nTriggering_IP_muon_dxyErr", "F")
-        self.out.branch("nTriggering_IP_muon_eta", "F")
-        self.out.branch("nTriggering_IP_muon_phi", "F")
-        self.out.branch("nTriggering_IP_muon_mass", "F")
-        self.out.branch("nTriggering_IP_muon_iso", "F")
-        self.out.branch("nTriggering_IP_muon_cosA", "F")
-        self.out.branch("nTriggering_IP_muon_deltaR", "F") 
-
-        self.out.branch("nTriggering_dR_muon_isTriggering", "O")
-        self.out.branch("nTriggering_dR_muon_px", "F")
-        self.out.branch("nTriggering_dR_muon_pz", "F")
-        self.out.branch("nTriggering_dR_muon_pt", "F")
-        self.out.branch("nTriggering_dR_muon_dxy", "F")
-        self.out.branch("nTriggering_dR_muon_dxyErr", "F")
-        self.out.branch("nTriggering_dR_muon_eta", "F")
-        self.out.branch("nTriggering_dR_muon_phi", "F")
-        self.out.branch("nTriggering_dR_muon_mass", "F")
-        self.out.branch("nTriggering_dR_muon_iso", "F")
-        self.out.branch("nTriggering_dR_muon_cosA", "F")
-        self.out.branch("nTriggering_dR_muon_deltaR", "F") 
-  
-        self.out.branch("nTriggering_cosA_muon_isTriggering", "O")
-        self.out.branch("nTriggering_cosA_muon_px", "F")
-        self.out.branch("nTriggering_cosA_muon_pz", "F")
-        self.out.branch("nTriggering_cosA_muon_pt", "F")
-        self.out.branch("nTriggering_cosA_muon_dxy", "F")
-        self.out.branch("nTriggering_cosA_muon_dxyErr", "F")
-        self.out.branch("nTriggering_cosA_muon_eta", "F")
-        self.out.branch("nTriggering_cosA_muon_phi", "F")
-        self.out.branch("nTriggering_cosA_muon_mass", "F")
-        self.out.branch("nTriggering_cosA_muon_iso", "F")
-        self.out.branch("nTriggering_cosA_muon_cosA", "F")
-        self.out.branch("nTriggering_cosA_muon_deltaR", "F")   
+        for sort in ["iso","IP","dR","cosA","pt","dz"]:
+           self.out.branch("nTriggering_%s_muon_isTriggering" % (sort), "O")
+           for var_s in ["px","py","pz","pt","dxy","dxyErr","dz","ip3d","charge","pdgId","eta","phi","mass","iso","genPartIdx","genPartFlav","cosA","deltaR","di_mass"]:
+              self.out.branch("nTriggering_%s_muon_%s" % (sort, var_s), "F")  
         
         #If MC, importe the xs weight from the metadata json file
         self.isMC = bool(inputTree.GetBranch('genWeight'))
@@ -139,7 +87,7 @@ class SVTreeProducer(Module):
            XSW=0
            converted_in = "{}".format(inputFile)
            #print(converted_in)
-           input = re.search('/eos/uscms/store/user/alesauva/BParkingNANO_2022Jan20/(.+?)/', converted_in).group(1) #To be replaced with the input file directory
+           input = re.search('/eos/uscms/store/user/alesauva/BParkingNANO_2022Jan31/(.+?)/', converted_in).group(1) #To be replaced with the input file directory
            for i in range(len(md['xsecWgt'])):
               if md['xsecWgt'][i][0]==input:
                  XSW=md['xsecWgt'][i][1]
@@ -159,159 +107,131 @@ class SVTreeProducer(Module):
         muon_general_Triggering=[]
         muon_trigger=[]
         muon_Ntrigger=[]
-   
+        dimuon_counter=0
         _all_muons  = Collection(event, 'Muon')
         #The first loop is for pre-selection
         if event.nMuon<2.0:
            return False
         for muon in _all_muons:
             #apply cuts here
-            if (abs(muon.eta) < 2.4) & (muon.tightId == True) & (muon.isGlobal == True):
+            if (abs(muon.eta) < 2.4) and (muon.tightId == True) and (muon.isGlobal == True) and not((0.3< muon.eta <1.2) & (0.4 < muon.phi <0.8) ):
                 muon_general.append(muon)
                 if muon.isTriggering==True:
                    muon_general_Triggering.append(muon)
         if (len(muon_general)<2) or (len(muon_general_Triggering)<1):
            return False
+        for i in range(len(muon_general)):
+           for j in range(len(muon_general)):
+              if i !=j:
+                 if cosA(muon_general[i].px,muon_general[i].py,muon_general[i].pz,muon_general[j].px,muon_general[j].py,muon_general[j].pz)<-0.99:
+                    return False
+                 if deltaR( muon_general[i].phi, muon_general[i].eta,muon_general[j].phi,muon_general[j].eta)>0.2:
+                    dimuon_counter=dimuon_counter+1
+        if dimuon_counter==0:
+           return False
+
         #The second loop is for setting the list of muon for each event
         _all_muons2  = Collection(event, 'Muon')
         for muons in _all_muons2:
-            print("AL muon event:", event.event)
-            print("AL muon event:", muons.eta, muons.tightId, muons.isGlobal)
-            if (abs(muons.eta) < 2.4) & (muons.tightId == True) & (muons.isGlobal == True):
-               print("AL istriggering: ", muons.isTriggering)
+            #print("AL muon event:", event.event)
+            #print("AL muon event:", muons.eta, muons.tightId, muons.isGlobal)
+            if (abs(muons.eta) < 2.4) and (muons.tightId == True) and (muons.isGlobal == True) and not((0.3< muons.eta <1.2) & (0.4 < muons.phi <0.8) ):
+               #print("AL istriggering: ", muons.isTriggering)
                if muons.isTriggering ==True:
                   muon_trigger.append(muons)
                else:
                   muon_Ntrigger.append(muons)
-               print("Ntrigger muon iso, ip", muons.pfRelIso04_custom, muons.dxy)
+               #print("Ntrigger muon iso, ip", muons.pfRelIso04_custom, muons.dxy)
         #Filling lead muon = triggering muon
+        #for var_trig in ["isTriggering","px","py","pz","pt","dxy","dxyErr","dz","ip3d","charge","pdgId","eta","phi","mass","pfRelIso04_custom","genPartIdx","genPartFlav"]:
+
         self.out.fillBranch("Triggering_muon_isTriggering", muon_trigger[0].isTriggering)
         self.out.fillBranch("Triggering_muon_px", muon_trigger[0].px)
+        self.out.fillBranch("Triggering_muon_py", muon_trigger[0].py)
         self.out.fillBranch("Triggering_muon_pz", muon_trigger[0].pz)
         self.out.fillBranch("Triggering_muon_pt", muon_trigger[0].pt)
         self.out.fillBranch("Triggering_muon_dxy", muon_trigger[0].dxy)
         self.out.fillBranch("Triggering_muon_dxyErr", muon_trigger[0].dxyErr)
+        self.out.fillBranch("Triggering_muon_dz", muon_trigger[0].dz)
+        self.out.fillBranch("Triggering_muon_ip3d", muon_trigger[0].ip3d)
+        self.out.fillBranch("Triggering_muon_charge", muon_trigger[0].charge)
+        self.out.fillBranch("Triggering_muon_pdgId", muon_trigger[0].pdgId)
         self.out.fillBranch("Triggering_muon_eta", muon_trigger[0].eta)
         self.out.fillBranch("Triggering_muon_phi", muon_trigger[0].phi)
         self.out.fillBranch("Triggering_muon_mass", muon_trigger[0].mass)
         self.out.fillBranch("Triggering_muon_iso", muon_trigger[0].pfRelIso04_custom)
+        self.out.fillBranch("Triggering_muon_genPartIdx", muon_trigger[0].genPartIdx)
+        self.out.fillBranch("Triggering_muon_genPartFlav", muon_trigger[0].genPartFlav)
+
+
         if len(muon_trigger)>1:
            print("Event have two triggering muons, will form a pair with both")
-           self.out.fillBranch("nTriggering_iso_muon_isTriggering", muon_trigger[1].isTriggering)
-           self.out.fillBranch("nTriggering_iso_muon_px", muon_trigger[1].px)
-           self.out.fillBranch("nTriggering_iso_muon_pz", muon_trigger[1].pz)
-           self.out.fillBranch("nTriggering_iso_muon_pt", muon_trigger[1].pt)
-           self.out.fillBranch("nTriggering_iso_muon_dxy", muon_trigger[1].dxy)
-           self.out.fillBranch("nTriggering_iso_muon_dxyErr", muon_trigger[1].dxyErr)
-           self.out.fillBranch("nTriggering_iso_muon_eta", muon_trigger[1].eta)
-           self.out.fillBranch("nTriggering_iso_muon_phi", muon_trigger[1].phi)
-           self.out.fillBranch("nTriggering_iso_muon_mass", muon_trigger[1].mass)
-           self.out.fillBranch("nTriggering_iso_muon_iso", muon_trigger[1].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_iso_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_trigger[1].px,muon_trigger[1].py,muon_trigger[1].pz))
-           self.out.fillBranch("nTriggering_iso_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_trigger[1].phi,muon_trigger[1].eta))          
-
-           self.out.fillBranch("nTriggering_IP_muon_isTriggering", muon_trigger[1].isTriggering)
-           self.out.fillBranch("nTriggering_IP_muon_px", muon_trigger[1].px)
-           self.out.fillBranch("nTriggering_IP_muon_pz", muon_trigger[1].pz)
-           self.out.fillBranch("nTriggering_IP_muon_pt", muon_trigger[1].pt)
-           self.out.fillBranch("nTriggering_IP_muon_dxy", muon_trigger[1].dxy)
-           self.out.fillBranch("nTriggering_IP_muon_dxyErr", muon_trigger[1].dxyErr)
-           self.out.fillBranch("nTriggering_IP_muon_eta", muon_trigger[1].eta)
-           self.out.fillBranch("nTriggering_IP_muon_phi", muon_trigger[1].phi)
-           self.out.fillBranch("nTriggering_IP_muon_mass", muon_trigger[1].mass)
-           self.out.fillBranch("nTriggering_IP_muon_iso", muon_trigger[1].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_IP_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_trigger[1].px,muon_trigger[1].py,muon_trigger[1].pz))
-           self.out.fillBranch("nTriggering_IP_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_trigger[1].phi,muon_trigger[1].eta))    
-
-           self.out.fillBranch("nTriggering_dR_muon_isTriggering", muon_trigger[1].isTriggering)
-           self.out.fillBranch("nTriggering_dR_muon_px", muon_trigger[1].px)
-           self.out.fillBranch("nTriggering_dR_muon_pz", muon_trigger[1].pz)
-           self.out.fillBranch("nTriggering_dR_muon_pt", muon_trigger[1].pt)
-           self.out.fillBranch("nTriggering_dR_muon_dxy", muon_trigger[1].dxy)
-           self.out.fillBranch("nTriggering_dR_muon_dxyErr", muon_trigger[1].dxyErr)
-           self.out.fillBranch("nTriggering_dR_muon_eta", muon_trigger[1].eta)
-           self.out.fillBranch("nTriggering_dR_muon_phi", muon_trigger[1].phi)
-           self.out.fillBranch("nTriggering_dR_muon_mass", muon_trigger[1].mass)
-           self.out.fillBranch("nTriggering_dR_muon_iso", muon_trigger[1].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_dR_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_trigger[1].px,muon_trigger[1].py,muon_trigger[1].pz))
-           self.out.fillBranch("nTriggering_dR_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_trigger[1].phi,muon_trigger[1].eta))    
-  
-           self.out.fillBranch("nTriggering_cosA_muon_isTriggering", muon_trigger[1].isTriggering)
-           self.out.fillBranch("nTriggering_cosA_muon_px", muon_trigger[1].px)
-           self.out.fillBranch("nTriggering_cosA_muon_pz", muon_trigger[1].pz)
-           self.out.fillBranch("nTriggering_cosA_muon_pt", muon_trigger[1].pt)
-           self.out.fillBranch("nTriggering_cosA_muon_dxy", muon_trigger[1].dxy)
-           self.out.fillBranch("nTriggering_cosA_muon_dxyErr", muon_trigger[1].dxyErr)
-           self.out.fillBranch("nTriggering_cosA_muon_eta", muon_trigger[1].eta)
-           self.out.fillBranch("nTriggering_cosA_muon_phi", muon_trigger[1].phi)
-           self.out.fillBranch("nTriggering_cosA_muon_mass", muon_trigger[1].mass)
-           self.out.fillBranch("nTriggering_cosA_muon_iso", muon_trigger[1].pfRelIso04_custom) 
-           self.out.fillBranch("nTriggering_cosA_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_trigger[1].px,muon_trigger[1].py,muon_trigger[1].pz))
-           self.out.fillBranch("nTriggering_cosA_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_trigger[1].phi,muon_trigger[1].eta))      
+           for var_subtrig in ["iso","IP","dR","cosA","pt","dz"]:
+              self.out.fillBranch("nTriggering_%s_muon_isTriggering" % (var_subtrig), muon_trigger[1].isTriggering)
+              self.out.fillBranch("nTriggering_%s_muon_px" % (var_subtrig), muon_trigger[1].px)
+              self.out.fillBranch("nTriggering_%s_muon_pz" % (var_subtrig), muon_trigger[1].pz)
+              self.out.fillBranch("nTriggering_%s_muon_pt" % (var_subtrig), muon_trigger[1].pt)
+              self.out.fillBranch("nTriggering_%s_muon_dxy" % (var_subtrig), muon_trigger[1].dxy)
+              self.out.fillBranch("nTriggering_%s_muon_dxyErr" % (var_subtrig), muon_trigger[1].dxyErr)
+              self.out.fillBranch("nTriggering_%s_muon_eta" % (var_subtrig), muon_trigger[1].eta)
+              self.out.fillBranch("nTriggering_%s_muon_phi" % (var_subtrig), muon_trigger[1].phi)
+              self.out.fillBranch("nTriggering_%s_muon_mass" % (var_subtrig), muon_trigger[1].mass)
+              self.out.fillBranch("nTriggering_%s_muon_iso" % (var_subtrig), muon_trigger[1].pfRelIso04_custom)
+              self.out.fillBranch("nTriggering_%s_muon_cosA" % (var_subtrig), cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_trigger[1].px,muon_trigger[1].py,muon_trigger[1].pz))
+              self.out.fillBranch("nTriggering_%s_muon_deltaR" % (var_subtrig), deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_trigger[1].phi,muon_trigger[1].eta))          
+              self.out.fillBranch("nTriggering_%s_muon_py" % (var_subtrig), muon_trigger[1].py)
+              self.out.fillBranch("nTriggering_%s_muon_dz" % (var_subtrig), muon_trigger[1].dz)
+              self.out.fillBranch("nTriggering_%s_muon_ip3d" % (var_subtrig), muon_trigger[1].ip3d)
+              self.out.fillBranch("nTriggering_%s_muon_charge" % (var_subtrig), muon_trigger[1].charge)
+              self.out.fillBranch("nTriggering_%s_muon_pdgId" % (var_subtrig), muon_trigger[1].pdgId)
+              self.out.fillBranch("nTriggering_%s_muon_genPartIdx" % (var_subtrig), muon_trigger[1].genPartIdx)
+              self.out.fillBranch("nTriggering_%s_muon_genPartFlav" % (var_subtrig), muon_trigger[1].genPartFlav)
+              self.out.fillBranch("nTriggering_%s_muon_genPartIdx" % (var_subtrig), muon_trigger[1].genPartIdx)
+              self.out.fillBranch("nTriggering_%s_muon_di_mass" % (var_subtrig), invariantMass(muon_trigger[0].mass,muon_trigger[1].mass,muon_trigger[0].px,muon_trigger[1].px,muon_trigger[0].py,muon_trigger[1].py,muon_trigger[0].pz,muon_trigger[1].pz))
         else:
            #Filling non-triggering muon depending on variables
-           muons_by_ip = sorted(muon_Ntrigger,key=lambda x: x.dxy, reverse=True)
+           muons_by_IP = sorted(muon_Ntrigger,key=lambda x: x.dxy, reverse=True)
            muons_by_iso = sorted(muon_Ntrigger,key=lambda x: x.pfRelIso04_custom, reverse=True)
            muons_by_cosA=sorted(muon_Ntrigger, key=lambda x: abs(cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,x.px,x.py,x.pz)))
            #print("cosA=", [abs(cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,x.px,x.py,x.pz)) for x in muon_Ntrigger])
            #print("muons_bycosa", muons_by_cosA)
            muons_by_dR=sorted(muon_Ntrigger, key=lambda x: deltaR(muon_trigger[0].phi,muon_trigger[0].eta,x.phi,x.eta), reverse=True)
+           muons_by_pt = sorted(muon_Ntrigger,key=lambda x: x.pt, reverse=True)
+           muons_by_dz = sorted(muon_Ntrigger,key=lambda x: x.dz, reverse=True)
            self.out.fillBranch("nTriggering_iso_muon_isTriggering", muons_by_iso[0].isTriggering)
-           self.out.fillBranch("nTriggering_iso_muon_px", muons_by_iso[0].px)
-           self.out.fillBranch("nTriggering_iso_muon_pz", muons_by_iso[0].pz)
-           self.out.fillBranch("nTriggering_iso_muon_pt", muons_by_iso[0].pt)
-           self.out.fillBranch("nTriggering_iso_muon_dxy", muons_by_iso[0].dxy)
-           self.out.fillBranch("nTriggering_iso_muon_dxyErr", muons_by_iso[0].dxyErr)
-           self.out.fillBranch("nTriggering_iso_muon_eta", muons_by_iso[0].eta)
-           self.out.fillBranch("nTriggering_iso_muon_phi", muons_by_iso[0].phi)
-           self.out.fillBranch("nTriggering_iso_muon_mass", muons_by_iso[0].mass)
-           self.out.fillBranch("nTriggering_iso_muon_iso", muons_by_iso[0].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_iso_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muons_by_iso[0].px,muons_by_iso[0].py,muons_by_iso[0].pz))
-           self.out.fillBranch("nTriggering_iso_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muons_by_iso[0].phi,muons_by_iso[0].eta))           
-
-           self.out.fillBranch("nTriggering_IP_muon_isTriggering", muons_by_ip[0].isTriggering)
-           self.out.fillBranch("nTriggering_IP_muon_px", muons_by_ip[0].px)
-           self.out.fillBranch("nTriggering_IP_muon_pz", muons_by_ip[0].pz)
-           self.out.fillBranch("nTriggering_IP_muon_pt", muons_by_ip[0].pt)
-           self.out.fillBranch("nTriggering_IP_muon_dxy", muons_by_ip[0].dxy)
-           self.out.fillBranch("nTriggering_IP_muon_dxyErr", muons_by_ip[0].dxyErr)
-           self.out.fillBranch("nTriggering_IP_muon_eta", muons_by_ip[0].eta)
-           self.out.fillBranch("nTriggering_IP_muon_phi", muons_by_ip[0].phi)
-           self.out.fillBranch("nTriggering_IP_muon_mass", muons_by_ip[0].mass)
-           self.out.fillBranch("nTriggering_IP_muon_iso", muons_by_ip[0].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_IP_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muons_by_ip[0].px,muons_by_ip[0].py,muons_by_ip[0].pz))
-           self.out.fillBranch("nTriggering_IP_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muons_by_ip[0].phi,muons_by_ip[0].eta))    
-
-           self.out.fillBranch("nTriggering_dR_muon_isTriggering", muons_by_dR[0].isTriggering)
-           self.out.fillBranch("nTriggering_dR_muon_px", muons_by_dR[0].px)
-           self.out.fillBranch("nTriggering_dR_muon_pz", muons_by_dR[0].pz)
-           self.out.fillBranch("nTriggering_dR_muon_pt", muons_by_dR[0].pt)
-           self.out.fillBranch("nTriggering_dR_muon_dxy", muons_by_dR[0].dxy)
-           self.out.fillBranch("nTriggering_dR_muon_dxyErr", muons_by_dR[0].dxyErr)
-           self.out.fillBranch("nTriggering_dR_muon_eta", muons_by_dR[0].eta)
-           self.out.fillBranch("nTriggering_dR_muon_phi", muons_by_dR[0].phi)
-           self.out.fillBranch("nTriggering_dR_muon_mass", muons_by_dR[0].mass)
-           self.out.fillBranch("nTriggering_dR_muon_iso", muons_by_dR[0].pfRelIso04_custom)
-           self.out.fillBranch("nTriggering_dR_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muons_by_dR[0].px,muons_by_dR[0].py,muons_by_dR[0].pz))
-           self.out.fillBranch("nTriggering_dR_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muons_by_dR[0].phi,muons_by_dR[0].eta))    
-
-  
-           self.out.fillBranch("nTriggering_cosA_muon_isTriggering", muons_by_cosA[0].isTriggering)
-           self.out.fillBranch("nTriggering_cosA_muon_px", muons_by_cosA[0].px)
-           self.out.fillBranch("nTriggering_cosA_muon_pz", muons_by_cosA[0].pz)
-           self.out.fillBranch("nTriggering_cosA_muon_pt", muons_by_cosA[0].pt)
-           self.out.fillBranch("nTriggering_cosA_muon_dxy", muons_by_cosA[0].dxy)
-           self.out.fillBranch("nTriggering_cosA_muon_dxyErr", muons_by_cosA[0].dxyErr)
-           self.out.fillBranch("nTriggering_cosA_muon_eta", muons_by_cosA[0].eta)
-           self.out.fillBranch("nTriggering_cosA_muon_phi", muons_by_cosA[0].phi)
-           self.out.fillBranch("nTriggering_cosA_muon_mass", muons_by_cosA[0].mass)
-           self.out.fillBranch("nTriggering_cosA_muon_iso", muons_by_cosA[0].pfRelIso04_custom)  
-           self.out.fillBranch("nTriggering_cosA_muon_cosA", cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muons_by_cosA[0].px,muons_by_cosA[0].py,muons_by_cosA[0].pz))
-           self.out.fillBranch("nTriggering_cosA_muon_deltaR", deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muons_by_cosA[0].phi,muons_by_cosA[0].eta))   
-        print("AL event in analyse:", event.event)
+           for var_sub in ["iso","IP","dR","cosA","pt","dz"]:
+              
+              str=("muons_by_%s" % (var_sub))
+              muon_to_use=locals()[str][0]
+              #print("AL test:", muon_to_use)
+              self.out.fillBranch("nTriggering_%s_muon_isTriggering" % (var_sub), muon_to_use.isTriggering)
+              self.out.fillBranch("nTriggering_%s_muon_px" % (var_sub), muon_to_use.px)
+              self.out.fillBranch("nTriggering_%s_muon_pz" % (var_sub), muon_to_use.pz)
+              self.out.fillBranch("nTriggering_%s_muon_pt" % (var_sub), muon_to_use.pt)
+              self.out.fillBranch("nTriggering_%s_muon_dxy" % (var_sub), muon_to_use.dxy)
+              self.out.fillBranch("nTriggering_%s_muon_dxyErr" % (var_sub), muon_to_use.dxyErr)
+              self.out.fillBranch("nTriggering_%s_muon_eta" % (var_sub), muon_to_use.eta)
+              self.out.fillBranch("nTriggering_%s_muon_phi" % (var_sub), muon_to_use.phi)
+              self.out.fillBranch("nTriggering_%s_muon_mass" % (var_sub), muon_to_use.mass)
+              self.out.fillBranch("nTriggering_%s_muon_iso" % (var_sub), muon_to_use.pfRelIso04_custom)
+              self.out.fillBranch("nTriggering_%s_muon_cosA" % (var_sub), cosA(muon_trigger[0].px,muon_trigger[0].py,muon_trigger[0].pz,muon_to_use.px,muon_to_use.py,muon_to_use.pz))
+              self.out.fillBranch("nTriggering_%s_muon_deltaR" % (var_sub), deltaR( muon_trigger[0].phi, muon_trigger[0].eta,muon_to_use.phi,muon_to_use.eta))          
+              self.out.fillBranch("nTriggering_%s_muon_py" % (var_sub), muon_to_use.py)
+              self.out.fillBranch("nTriggering_%s_muon_dz" % (var_sub), muon_to_use.dz)
+              self.out.fillBranch("nTriggering_%s_muon_ip3d" % (var_sub), muon_to_use.ip3d)
+              self.out.fillBranch("nTriggering_%s_muon_charge" % (var_sub), muon_to_use.charge)
+              self.out.fillBranch("nTriggering_%s_muon_pdgId" % (var_sub), muon_to_use.pdgId)
+              self.out.fillBranch("nTriggering_%s_muon_genPartIdx" % (var_sub), muon_to_use.genPartIdx)
+              self.out.fillBranch("nTriggering_%s_muon_genPartFlav" % (var_sub), muon_to_use.genPartFlav)
+              self.out.fillBranch("nTriggering_%s_muon_genPartIdx" % (var_sub), muon_to_use.genPartIdx)
+              self.out.fillBranch("nTriggering_%s_muon_di_mass" % (var_sub), invariantMass(muon_trigger[0].mass,muon_to_use.mass,muon_trigger[0].px,muon_to_use.px,muon_trigger[0].py,muon_to_use.py,muon_trigger[0].pz,muon_to_use.pz))
         self.out.fillBranch("Event", event.event)
         self.out.fillBranch("muon_N", event.nMuon)
         self.out.fillBranch("muon_genWeight", event.genWeight)
+        self.out.fillBranch("nSV", event.nSV)
+        self.out.fillBranch("nOtherPV", event.nOtherPV)
+        #self.out.branch("GenPart_pdgId", "F")
+        #self.out.branch("GenPart_genPartIdxMother", "F")
                #self.out.fillBranch("muon_xsWeight", XSW) 
         #self.out.fill()
                   
