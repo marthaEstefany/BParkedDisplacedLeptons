@@ -1,2 +1,10 @@
 bparking:
-- BuToK_ToMuMu_MuFilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen
+- Sleptons_M_50_0p01mm_13TeV_2018MC
+- Sleptons_M_50_10000mm_13TeV_2018MC
+- Sleptons_M_50_100mm_13TeV_2018MC
+- Sleptons_M_100_0p01mm_13TeV_2018MC
+- Sleptons_M_100_10000mm_13TeV_2018MC
+- Sleptons_M_100_100mm_13TeV_2018MC
+- Sleptons_M_500_0p01mm_13TeV_2018MC
+- Sleptons_M_500_10000mm_13TeV_2018MC
+- Sleptons_M_500_100mm_13TeV_2018MC

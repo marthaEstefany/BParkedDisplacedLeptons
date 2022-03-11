@@ -1,2 +1,6 @@
 bparking:
-- crab_data_Run2018A_part1
+- BsToPhiJpsi_ToKKMuMu_probefilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen 
+- BsToPhiMuMu_probeilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen
+- BsToPhi_ToMuMu_MuFilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen
+- BsToPhiJpsi_ToMuMu_MuFilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen     
+- BsToPhiPsi2S_ToKKMuMu_probefilter_SoftQCDnonD_TuneCP5_13TeV-pythia8-evtgen

@@ -67,7 +67,7 @@ def main(args):
     for f in os.listdir('.'):
         if f.endswith('.root'):
             print('Removing file %s' % f)
-            os.remove(f)
+            #os.remove(f)
 
     # run postprocessor
     inputfiles = args.files if len(args.files) else md['jobs'][args.jobid]['inputfiles']
@@ -81,7 +81,7 @@ def main(args):
                       modules=modules,
                       compression=md.get('compression', 'LZMA:9'),
                       friend=md.get('friend', False),
-                      postfix=md.get('postfix'),
+                      postfix=outputname,
                       jsonInput=md.get('json'),
                       provenance=md.get('provenance', False),
                       haddFileName=None,
@@ -92,17 +92,21 @@ def main(args):
                       outputbranchsel=os.path.basename(md['branchsel_out'])
                       )
     p.run()
+    #print('AL output name', md.get('friend', False), filepaths, allow_prefetch, md.get('postfix'))
+    #subprocess.call('hadd Out_%s.root *.root' % args.jobid, shell=True )
+    subprocess.call('xrdcp -f %s root://cmseos.fnal.gov//store/user/alesauva/Signal_tree' % outputname, shell=True )
+    subprocess.call('rm %s' % outputname, shell=True )
 
     # hadd files
-    p = subprocess.Popen('haddnano.py %s *.root' % outputname, shell=True)
-    p.communicate()
-    if p.returncode != 0:
-        raise RuntimeError('Hadd failed!')
+  #  p = subprocess.Popen('haddnano.py %s *.root' % outputname, shell=True)
+  #  p.communicate()
+  #  if p.returncode != 0:
+  #      raise RuntimeError('Hadd failed!')
 
     # keep only the hadd file
-    for f in os.listdir('.'):
-        if f.endswith('.root') and f != outputname:
-            os.remove(f)
+   # for f in os.listdir('.'):
+    #    if f.endswith('.root') and f != outputname:
+    #        os.remove(f)
 
     # stage out
     if md['outputdir'].startswith('/eos'):
