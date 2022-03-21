@@ -82,7 +82,6 @@ def add_weight_branch(file, xsec, lumi=1000., treename='Events', wgtbranch='xsec
     ROOT.PyConfig.IgnoreCommandLineOptions = True
 
     def _get_sum(tree, wgtvar):
-        print("AL test test", tree)
         htmp = ROOT.TH1D('htmp', 'htmp', 1, 0, 10)
         tree.Project('htmp', '1.0', wgtvar)
         return float(htmp.Integral())
@@ -111,9 +110,10 @@ def add_weight_branch(file, xsec, lumi=1000., treename='Events', wgtbranch='xsec
     tree = f.Get('Friends')
     
     # fill cross section weights to the 'Events' tree
-    sumwgts = _get_sum(run_tree, 'genWeight')
-    xsecwgt = xsec * lumi / sumwgts
-    print('AL print total number event= ', sumwgts)
+    #sumwgts = _get_sum(run_tree, 'genWeight')
+    #AL comment xsecwgt = xsec * lumi / sumwgts
+    xsecwgt = xsec * lumi / 1.0
+    #print('AL print total number event= ', sumwgts)
     print('AL print xsec weight= ', xsecwgt)
     return xsecwgt
 
@@ -127,6 +127,7 @@ def add_weight_branch(file, xsec, lumi=1000., treename='Events', wgtbranch='xsec
     #    raise RuntimeError('Failed to update the tree!')
 
 def run_add_weight(args):
+    nsam=0
     if args.weight_file:
         xsec_dict = parse_sample_xsec(args.weight_file)
     import subprocess
@@ -139,6 +140,7 @@ def run_add_weight(args):
         os.makedirs(parts_dir)
     for samp in md['samples']:
         infile = '{parts_dir}/{samp}/{samp}.root'.format(parts_dir=parts_dir,samp=samp)
+        print('AL test inFile', infile)
      #AL all commented out for testing  # cmd = 'haddnano.py {outfile} {outputdir}/{samp}/{samp}_*_tree.root'.format(outfile=outfile, outputdir=args.outputdir, samp=samp)
        # logging.debug('...' + cmd)
        # p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -151,13 +153,19 @@ def run_add_weight(args):
         # add weight
         if args.weight_file:
             try:
-                print('AL test samp', samp)
+                print('AL test samp', xsec_dict)
                 xsec = xsec_dict[samp]
                 print('AL test xsec:', xsec)
                 if xsec is not None:
                     logging.info('Adding xsec weight to file %s, xsec=%f' % (infile, xsec))
-                    args.xsecWgt=[('{samp}'.format(samp=samp),add_weight_branch(infile, xsec))]
-                    
+                    if nsam==0:
+                       args.xsecWgt=[('{samp}'.format(samp=samp),add_weight_branch(infile, xsec))]
+                    else:
+                       args.xsecWgt.extend([
+                       ('{samp}'.format(samp=samp),
+                       add_weight_branch(infile, xsec)),
+                       ])
+                    nsam=nsam+1   
             except KeyError as e:
                 if '-' not in samp and '_' not in samp:
                     # data

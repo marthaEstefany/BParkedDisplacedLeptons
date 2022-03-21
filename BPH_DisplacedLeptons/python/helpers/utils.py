@@ -93,6 +93,9 @@ def transverseMass(obj, met):
     cos_dphi = math.cos(deltaPhi(obj, met))
     return math.sqrt(2 * obj.pt * met.pt * (1 - cos_dphi))
 
+def invariantMass(m1,m2,px1,px2,py1,py2,pz1,pz2):
+   return(math.sqrt(m1*m1+m2*m2-2*(px1*px2+py1*py2+pz1*pz2)+2*math.sqrt((m1*m1+px1*px1+py1*py1+pz1*pz1)*(m2*m2+px2*px2+py2*py2+pz2*pz2))))
+
 
 def minValue(collection, fallback=99):
     if len(collection) == 0:
